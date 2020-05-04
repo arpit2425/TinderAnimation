@@ -17,21 +17,30 @@ export class Deck extends Component {
       position,
     };
   }
-
+  getCardStyle() {
+    return {
+      ...this.state.position.getLayout(),
+      transform: [{ rotate: "45deg" }],
+    };
+  }
   renderCards() {
-    return this.props.data.map((item) => {
+    return this.props.data.map((item, index) => {
+      if (index === 0) {
+        return (
+          <Animated.View
+            key={item.id}
+            style={this.getCardStyle()}
+            {...this.state.panResponder.panHandlers}
+          >
+            {this.props.renderCards(item)}
+          </Animated.View>
+        );
+      }
       return this.props.renderCards(item);
     });
   }
   render() {
-    return (
-      <Animated.View
-        style={this.state.position.getLayout()}
-        {...this.state.panResponder.panHandlers}
-      >
-        {this.renderCards()}
-      </Animated.View>
-    );
+    return <View>{this.renderCards()}</View>;
   }
 }
 
