@@ -36,6 +36,19 @@ class Main extends Component {
     this.state = {
       currentIndex: 0,
     };
+    this.rotate = this.position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+      outputRange: ["-10deg", "0deg", "10deg"],
+      extrapolate: "clamp",
+    });
+    this.rotateAndTranslate = {
+      transform: [
+        {
+          rotate: this.rotate,
+        },
+        ...this.position.getTranslateTransform(),
+      ],
+    };
   }
 
   componentWillMount() {
@@ -53,26 +66,49 @@ class Main extends Component {
   renderCards() {
     return people
       .map((item, i) => {
-        return (
-          <Animated.View
-            {...this.PanResponder.panHandlers}
-            key={item.id}
-            style={[
-              { transform: this.position.getTranslateTransform() },
-              {
-                height: SCREEN_HEIGHT - 120,
-                width: SCREEN_WIDTH,
-                padding: 10,
-                position: "absolute",
-              },
-            ]}
-          >
-            <Image
-              source={item.uri}
-              style={{ flex: 1, width: null, height: null, borderRadius: 20 }}
-            />
-          </Animated.View>
-        );
+        if (i < this.state.currentIndex) {
+          return null;
+        } else if (i == this.state.currentIndex) {
+          return (
+            <Animated.View
+              {...this.PanResponder.panHandlers}
+              key={item.id}
+              style={[
+                this.rotateAndTranslate,
+                {
+                  height: SCREEN_HEIGHT - 120,
+                  width: SCREEN_WIDTH,
+                  padding: 10,
+                  position: "absolute",
+                },
+              ]}
+            >
+              <Image
+                source={item.uri}
+                style={{ flex: 1, width: null, height: null, borderRadius: 20 }}
+              />
+            </Animated.View>
+          );
+        } else {
+          return (
+            <Animated.View
+              key={item.id}
+              style={[
+                {
+                  height: SCREEN_HEIGHT - 120,
+                  width: SCREEN_WIDTH,
+                  padding: 10,
+                  position: "absolute",
+                },
+              ]}
+            >
+              <Image
+                source={item.uri}
+                style={{ flex: 1, width: null, height: null, borderRadius: 20 }}
+              />
+            </Animated.View>
+          );
+        }
       })
       .reverse();
   }
