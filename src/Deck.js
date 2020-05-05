@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Animated, PanResponder, Dimensions } from "react-native";
+import {
+  View,
+  Animated,
+  PanResponder,
+  Dimensions,
+  StyleSheet,
+} from "react-native";
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const DURATION = 250;
@@ -76,31 +82,43 @@ export class Deck extends Component {
     };
   }
   renderCards() {
-    if (this.state.index == this.props.data.length) {
+    if (this.state.index >= this.props.data.length) {
       return this.props.renderNoMoreCards();
     }
-    return this.props.data.map((item, i) => {
-      if (i < this.state.index) {
-        return null;
-      }
-      if (i === this.state.index) {
-        return (
-          <Animated.View
-            key={item.id}
-            style={this.getCardStyle()}
-            {...this.state.panResponder.panHandlers}
-          >
-            {this.props.renderCards(item)}
-          </Animated.View>
-        );
-      }
+    return this.props.data
+      .map((item, i) => {
+        if (i < this.state.index) {
+          return null;
+        }
+        if (i === this.state.index) {
+          return (
+            <Animated.View
+              key={item.id}
+              style={[this.getCardStyle(), styles.cardStyle]}
+              {...this.state.panResponder.panHandlers}
+            >
+              {this.props.renderCards(item)}
+            </Animated.View>
+          );
+        }
 
-      return this.props.renderCards(item);
-    });
+        return (
+          <View key={item.id} style={styles.cardStyle}>
+            {this.props.renderCards(item)}
+          </View>
+        );
+      })
+      .reverse();
   }
   render() {
     return <View>{this.renderCards()}</View>;
   }
 }
 
+const styles = StyleSheet.create({
+  cardStyle: {
+    position: "absolute",
+    width: SCREEN_WIDTH,
+  },
+});
 export default Deck;
