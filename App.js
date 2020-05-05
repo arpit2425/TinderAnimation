@@ -62,9 +62,9 @@ class App extends Component {
   }
   renderNoMoreCards() {
     return (
-      <Card title="All Done">
-        <Text>No more Content</Text>
-        <Button title="Get More" backgroundColor="#03a9f4"></Button>
+      <Card title="All Done!">
+        <Text style={{ marginBottom: 10 }}>There's no more content here!</Text>
+        <Button backgroundColor="#03A9F4" title="Get more!" />
       </Card>
     );
   }
@@ -74,9 +74,9 @@ class App extends Component {
         <Deck
           data={DATA}
           renderCards={this.renderCards}
+          renderNoMoreCards={this.renderNoMoreCards}
           onSwipeLeft={() => {}}
           onSwipeRight={() => {}}
-          renderNoMoreCards={this.renderNoMoreCards}
         />
       </View>
     );
@@ -85,6 +85,7 @@ class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 20,
     flex: 1,
     backgroundColor: "#fff",
   },
