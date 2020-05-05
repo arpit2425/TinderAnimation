@@ -83,6 +83,54 @@ class Main extends Component {
                 },
               ]}
             >
+              <Animated.View
+                style={{
+                  transform: [{ rotate: "-30deg" }],
+                  position: "absolute",
+                  top: 50,
+                  left: 40,
+                  zIndex: 1000,
+                }}
+              >
+                <Text
+                  style={{
+                    borderColor: "red",
+                    borderRadius: 20,
+                    borderWidth: 1,
+                    fontSize: 32,
+                    color: "red",
+                    fontWeight: "800",
+                    padding: 20,
+                    paddingVertical: 5,
+                  }}
+                >
+                  Nope
+                </Text>
+              </Animated.View>
+              <Animated.View
+                style={{
+                  transform: [{ rotate: "30deg" }],
+                  position: "absolute",
+                  top: 50,
+                  right: 40,
+                  zIndex: 1000,
+                }}
+              >
+                <Text
+                  style={{
+                    borderColor: "green",
+                    borderRadius: 20,
+                    borderWidth: 1,
+                    fontSize: 32,
+                    color: "green",
+                    fontWeight: "800",
+                    padding: 20,
+                    paddingVertical: 5,
+                  }}
+                >
+                  Like
+                </Text>
+              </Animated.View>
               <Image
                 source={item.uri}
                 style={{ flex: 1, width: null, height: null, borderRadius: 20 }}
