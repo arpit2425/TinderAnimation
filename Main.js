@@ -49,8 +49,24 @@ class Main extends Component {
         ...this.position.getTranslateTransform(),
       ],
     };
-  }
 
+    this.likeOpacity = this.position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 6],
+      outputRange: [0, 0, 1],
+    });
+    this.dislikeOpacity = this.position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH / 6, 0, SCREEN_WIDTH / 2],
+      outputRange: [1, 0, 0],
+    });
+    this.nextCardOpacity = this.position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+      outputRange: [1, 0, 1],
+    });
+    this.nextCardScale = this.position.x.interpolate({
+      inputRange: [-SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2],
+      outputRange: [1, 0.8, 1],
+    });
+  }
   componentWillMount() {
     this.PanResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -85,6 +101,7 @@ class Main extends Component {
             >
               <Animated.View
                 style={{
+                  opacity: this.dislikeOpacity,
                   transform: [{ rotate: "-30deg" }],
                   position: "absolute",
                   top: 50,
@@ -109,6 +126,7 @@ class Main extends Component {
               </Animated.View>
               <Animated.View
                 style={{
+                  opacity: this.likeOpacity,
                   transform: [{ rotate: "30deg" }],
                   position: "absolute",
                   top: 50,
@@ -143,6 +161,8 @@ class Main extends Component {
               key={item.id}
               style={[
                 {
+                  opacity: this.nextCardOpacity,
+                  transform: [{ scale: this.nextCardScale }],
                   height: SCREEN_HEIGHT - 120,
                   width: SCREEN_WIDTH,
                   padding: 10,
